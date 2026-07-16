@@ -72,6 +72,8 @@ IMAGE_EXT = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp", ".tif", ".tiff", 
 def classify(target: str) -> str:
     low = target.lower()
     if os.path.exists(target):
+        if os.path.isdir(target):
+            return "local_directory"
         ext = Path(target).suffix.lower()
         if ext in VIDEO_EXT:
             return "local_video"
@@ -192,7 +194,7 @@ def extract_frames(ff, video, outdir, n_frames):
 # ---------------------------------------------------------------------------
 def srt_to_text(srt_path, txt_path):
     try:
-        raw = Path(srt_path).read_text(errors="ignore")
+        raw = Path(srt_path).read_text(encoding="utf-8", errors="ignore")
     except Exception:
         return None
     lines = []
@@ -205,13 +207,13 @@ def srt_to_text(srt_path, txt_path):
             lines.append(ln)
     if not lines:
         return None
-    Path(txt_path).write_text("\n".join(lines))
+    Path(txt_path).write_text("\n".join(lines), encoding="utf-8")
     return txt_path
 
 
 def info_json_to_text(info_path, txt_path):
     try:
-        d = json.loads(Path(info_path).read_text())
+        d = json.loads(Path(info_path).read_text(encoding="utf-8"))
     except Exception:
         return None
     parts = []
@@ -221,7 +223,7 @@ def info_json_to_text(info_path, txt_path):
             parts.append(f"{k}: {d[k]}")
     if not parts:
         return None
-    Path(txt_path).write_text("\n".join(str(p) for p in parts))
+    Path(txt_path).write_text("\n".join(str(p) for p in parts), encoding="utf-8")
     return txt_path
 
 
@@ -252,7 +254,9 @@ def process(target, base_out, frames, cookies):
     errors = []
 
     # --- acquire media --------------------------------------------------
-    if kind in ("local_video", "local_image", "local_other"):
+    if kind == "local_directory":
+        errors.append(f"local directories are not supported: {target}")
+    elif kind in ("local_video", "local_image", "local_other"):
         dst = outdir / Path(target).name
         if Path(target).resolve() != dst.resolve():
             shutil.copy2(target, dst)
@@ -333,8 +337,10 @@ def main():
         try:
             items.append(process(t, args.out, args.frames, args.cookies))
         except Exception as e:
-            items.append({"target": t, "kind": "error", "errors": [repr(e)],
-                          "images_to_read": [], "text_to_read": [],
+            items.append({"target": t, "kind": "error", "out_dir": "",
+                          "images_to_read": [], "post_images": [],
+                          "video_frames": [], "videos": [], "text_to_read": [],
+                          "errors": [repr(e)],
                           "counts": {"post_images": 0, "video_frames": 0,
                                      "videos": 0, "text_files": 0}})
 
