@@ -1,0 +1,4 @@
+.visual-cache/
+__pycache__/
+*.pyc
+cookies.txt
