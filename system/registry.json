@@ -125,6 +125,21 @@
       "artifacts": [
         "system/crews.md"
       ]
+    },
+    {
+      "id": "T-009",
+      "title": "Insta-automation pipeline blueprint (scheduler + publisher)",
+      "source": "https://www.instagram.com/reel/DX1pGpBSjwo/ (@ai_with_paawan)",
+      "type": "product",
+      "status": "in-progress",
+      "priority": "high",
+      "created": "2026-07-16 08:09 UTC",
+      "updated": "2026-07-16 08:09 UTC",
+      "next_action": "build scheduler (draft-safe) then publisher (needs account auth)",
+      "notes": "Reel is our exact system. Blueprint in system/pipeline.md. Left half built; scheduler + publisher remain.",
+      "artifacts": [
+        "system/pipeline.md"
+      ]
     }
   ]
 }
