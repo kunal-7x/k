@@ -2,7 +2,13 @@
 
 > One hub, many threads. Auto-generated from `registry.json` by `track.py` — do not edit by hand.
 
-**8 items** — ⛔ 1 blocked · 📥 1 inbox · ✅ 6 done
+**9 items** — 🔨 1 in-progress · ⛔ 1 blocked · 📥 1 inbox · ✅ 6 done
+
+## 🔨 In-Progress (1)
+
+| ID | Pri | Item | Type | Next action / notes | Artifacts | Source |
+|----|-----|------|------|---------------------|-----------|--------|
+| T-009 | high | Insta-automation pipeline blueprint (scheduler + publisher) | product | build scheduler (draft-safe) then publisher (needs account auth) | `system/pipeline.md` | https://www.instagram.com/reel/DX1pGpBSjwo/ (@ai_with_paawan) |
 
 ## ⛔ Blocked (1)
 
@@ -28,4 +34,4 @@
 | T-002 | med | Carousel teardown -> content (Claude Design reel) | content | Brief + reel script + X thread + LinkedIn post. | `content/briefs/001-claude-carousels-teardown.md`<br>`content/drafts/` | https://www.instagram.com/reel/DZdAjsLFO0n/ (@nateherkai) |
 
 ---
-_Last rendered: 2026-07-16 07:30 UTC_
+_Last rendered: 2026-07-16 08:09 UTC_
