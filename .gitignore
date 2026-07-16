@@ -1,4 +1,9 @@
+# Downloaded media produced by the visual-content skill
 .visual-cache/
+
+# Python
 __pycache__/
 *.pyc
+
+# Auth material — never commit
 cookies.txt
