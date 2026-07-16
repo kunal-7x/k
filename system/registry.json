@@ -1,0 +1,130 @@
+{
+  "items": [
+    {
+      "id": "T-001",
+      "title": "Visual-content + content-engine system (read & execute any post/reel/video)",
+      "source": "session origin",
+      "type": "product",
+      "status": "done",
+      "priority": "high",
+      "created": "2026-07-16 07:26 UTC",
+      "updated": "2026-07-16 07:26 UTC",
+      "next_action": "merge PR #1",
+      "notes": "Two chained skills + persistent content pipeline. Live in PR #1.",
+      "artifacts": [
+        ".claude/skills/visual-content/",
+        ".claude/skills/content-engine/",
+        "https://github.com/kunal-7x/k/pull/1"
+      ]
+    },
+    {
+      "id": "T-002",
+      "title": "Carousel teardown -> content (Claude Design reel)",
+      "source": "https://www.instagram.com/reel/DZdAjsLFO0n/ (@nateherkai)",
+      "type": "content",
+      "status": "done",
+      "priority": "med",
+      "created": "2026-07-16 07:26 UTC",
+      "updated": "2026-07-16 07:26 UTC",
+      "next_action": "",
+      "notes": "Brief + reel script + X thread + LinkedIn post.",
+      "artifacts": [
+        "content/briefs/001-claude-carousels-teardown.md",
+        "content/drafts/"
+      ]
+    },
+    {
+      "id": "T-003",
+      "title": "How to make navigable 3D from phone (real estate + objects)",
+      "source": "https://www.instagram.com/reel/DakwVRrp3tb/ (@thesaar.ai)",
+      "type": "research",
+      "status": "done",
+      "priority": "high",
+      "created": "2026-07-16 07:26 UTC",
+      "updated": "2026-07-16 07:26 UTC",
+      "next_action": "",
+      "notes": "Multi-agent research guide: 3D Gaussian Splatting, 4 tracks, tool table, $0 weekend plan.",
+      "artifacts": [
+        "content/guides/001-3d-from-phone-howto.md"
+      ]
+    },
+    {
+      "id": "T-004",
+      "title": "3D Gaussian-splat walk-viewer (on-screen joystick, self-host, trackable link)",
+      "source": "reel DakwVRrp3tb (Track D)",
+      "type": "feature",
+      "status": "done",
+      "priority": "high",
+      "created": "2026-07-16 07:26 UTC",
+      "updated": "2026-07-16 07:30 UTC",
+      "next_action": "",
+      "notes": "Built: viewer/index.html (Three.js + nipplejs joystick, eye-height + bounds) + README. Drop in a .ksplat and deploy.",
+      "artifacts": [
+        "viewer/index.html",
+        "viewer/README.md"
+      ]
+    },
+    {
+      "id": "T-005",
+      "title": "Execute new carousel post",
+      "source": "https://www.instagram.com/p/Da0i1JcjXRr/ (carousel)",
+      "type": "idea",
+      "status": "done",
+      "priority": "high",
+      "created": "2026-07-16 07:26 UTC",
+      "updated": "2026-07-16 07:30 UTC",
+      "next_action": "",
+      "notes": "Carousel images rate-limited (IG 429); executed from caption. Concept: run Claude Code as a company (42 skills / 7 crews).",
+      "artifacts": [
+        "system/crews.md",
+        "content/briefs/002-claude-code-as-a-company.md"
+      ]
+    },
+    {
+      "id": "T-006",
+      "title": "Live Instagram saved-posts access (cookie-based)",
+      "source": "user request",
+      "type": "feature",
+      "status": "blocked",
+      "priority": "med",
+      "created": "2026-07-16 07:26 UTC",
+      "updated": "2026-07-16 07:26 UTC",
+      "next_action": "user sends cookies.txt + IG username",
+      "notes": "saved_live.py built & unit-tested. Blocked on user cookies. ToS/ban risk accepted.",
+      "artifacts": [
+        ".claude/skills/visual-content/scripts/saved_live.py"
+      ]
+    },
+    {
+      "id": "T-007",
+      "title": "The tracking system itself (this dashboard)",
+      "source": "user request 'build a system'",
+      "type": "product",
+      "status": "done",
+      "priority": "high",
+      "created": "2026-07-16 07:26 UTC",
+      "updated": "2026-07-16 07:26 UTC",
+      "next_action": "",
+      "notes": "track.py + registry.json + DASHBOARD.md. One hub, many threads.",
+      "artifacts": [
+        "system/track.py",
+        "system/DASHBOARD.md"
+      ]
+    },
+    {
+      "id": "T-008",
+      "title": "Build out skill crews (company model) — scheduler, publisher, keyword-DM",
+      "source": "https://www.instagram.com/p/Da0i1JcjXRr/ (@leadgenman)",
+      "type": "product",
+      "status": "inbox",
+      "priority": "med",
+      "created": "2026-07-16 07:30 UTC",
+      "updated": "2026-07-16 07:30 UTC",
+      "next_action": "hire scheduler crew first (always-on inbox + check-ins)",
+      "notes": "Roadmap in system/crews.md 'Next hires'.",
+      "artifacts": [
+        "system/crews.md"
+      ]
+    }
+  ]
+}
