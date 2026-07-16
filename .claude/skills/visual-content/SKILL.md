@@ -71,6 +71,14 @@ actually read.
 - **Standalone** image/video URLs, and **local** image/video files
 - **Multiple targets at once** — pass them all in one `grab.py` call
 
+## Reading a user's saved Instagram posts
+
+To process everything a user has **saved** on Instagram, use their official
+"Download Your Information" export — no password, no login, ToS-compliant.
+`scripts/ingest_saved.py` turns the export into a URL list you batch through
+`grab.py`. Full steps in [references/saved-posts.md](references/saved-posts.md).
+Never ask for or handle the user's Instagram password.
+
 ## Tuning & edge cases
 
 - **Longer videos:** raise `--frames` (e.g. `--frames 20`) for finer coverage.
