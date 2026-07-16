@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>3D Walkthrough</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #111; font-family: system-ui, sans-serif; }
+  #app { position: fixed; inset: 0; }
+  #joystick { position: fixed; left: 22px; bottom: 22px; width: 130px; height: 130px; z-index: 10; }
+  #look { position: fixed; right: 0; top: 0; width: 55%; height: 100%; z-index: 5; touch-action: none; }
+  #hud { position: fixed; top: 12px; left: 12px; z-index: 10; color: #fff; font-size: 13px;
+         background: rgba(0,0,0,.45); padding: 6px 10px; border-radius: 8px; }
+  #loading { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+             color: #fff; z-index: 20; font-size: 16px; background: #111; }
+  .hint { opacity: .7; font-size: 11px; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="look"></div>
+<div id="joystick"></div>
+<div id="hud">Drag right side to look · joystick to walk<div class="hint" id="pos"></div></div>
+<div id="loading">Loading 3D scene…</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "@mkkellogg/gaussian-splats3d": "https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats3d@0.4.7/build/gaussian-splats3d.module.js",
+    "nipplejs": "https://cdn.jsdelivr.net/npm/nipplejs@0.10.2/dist/nipplejs.js"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import * as GS from '@mkkellogg/gaussian-splats3d';
+import nipplejs from 'nipplejs';
+
+// ------------------------------------------------------------------
+// CONFIG — tune per scene. Get bounds from SuperSplat, or widen freely.
+// ------------------------------------------------------------------
+const CONFIG = {
+  // Splat file to load. Override with ?src=<url>. Put your .ply/.ksplat/.splat
+  // next to this file (e.g. ./scene.ksplat) or on a CORS-enabled URL.
+  src: new URLSearchParams(location.search).get('src') || './scene.ksplat',
+  eyeHeight: 1.6,      // metres — camera pinned to standing height
+  speed: 2.2,          // metres / second walking speed
+  lookSpeed: 0.0045,   // radians per pixel dragged
+  bounds: { minX: -6, maxX: 6, minZ: -6, maxZ: 6 },  // room AABB clamp (metres)
+  start: { x: 0, y: 1.6, z: 3 },
+};
+
+const renderer = new THREE.WebGLRenderer({ antialias: false });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+document.getElementById('app').appendChild(renderer.domElement);
+
+const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 500);
+camera.position.set(CONFIG.start.x, CONFIG.start.y, CONFIG.start.z);
+
+let yaw = Math.PI, pitch = 0;   // facing -Z to start
+
+// Gaussian-splat viewer, self-driven off so WE own the camera + render loop.
+const viewer = new GS.Viewer({
+  selfDrivenMode: false,
+  useBuiltInControls: false,
+  renderer,
+  camera,
+  sharedMemoryForWorkers: false,
+});
+
+// ------------------------------------------------------------------
+// Controls: left joystick = walk, right-half drag = look
+// ------------------------------------------------------------------
+const move = { x: 0, y: 0 };
+const stick = nipplejs.create({
+  zone: document.getElementById('joystick'),
+  mode: 'static', position: { left: '65px', bottom: '65px' },
+  color: 'white', size: 120,
+});
+stick.on('move', (_, d) => { move.x = d.vector.x; move.y = d.vector.y; });
+stick.on('end', () => { move.x = 0; move.y = 0; });
+
+// Look: drag anywhere on the right zone (touch) or the canvas (mouse).
+let dragging = false, lastX = 0, lastY = 0;
+function onDown(e){ dragging = true; const p = pt(e); lastX = p.x; lastY = p.y; }
+function onMove(e){
+  if(!dragging) return;
+  const p = pt(e);
+  yaw   -= (p.x - lastX) * CONFIG.lookSpeed;
+  pitch -= (p.y - lastY) * CONFIG.lookSpeed;
+  pitch = Math.max(-1.2, Math.min(1.2, pitch));  // clamp so you can't flip over
+  lastX = p.x; lastY = p.y;
+}
+function onUp(){ dragging = false; }
+function pt(e){ const t = e.touches ? e.touches[0] : e; return { x: t.clientX, y: t.clientY }; }
+const look = document.getElementById('look');
+look.addEventListener('touchstart', onDown, {passive:true});
+look.addEventListener('touchmove', onMove, {passive:true});
+look.addEventListener('touchend', onUp);
+renderer.domElement.addEventListener('mousedown', onDown);
+addEventListener('mousemove', onMove);
+addEventListener('mouseup', onUp);
+// Keyboard WASD for desktop parity.
+const keys = {};
+addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
+addEventListener('keyup',   e => keys[e.key.toLowerCase()] = false);
+
+addEventListener('resize', () => {
+  renderer.setSize(innerWidth, innerHeight);
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+});
+
+// ------------------------------------------------------------------
+// Walk loop: eye-height pin + flattened forward + bounds clamp
+// ------------------------------------------------------------------
+const fwd = new THREE.Vector3(), right = new THREE.Vector3(), up = new THREE.Vector3(0,1,0);
+const posEl = document.getElementById('pos');
+let last = performance.now();
+
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+
+  // Apply look.
+  camera.rotation.order = 'YXZ';
+  camera.rotation.y = yaw; camera.rotation.x = pitch;
+
+  // Combine joystick + WASD into a move vector.
+  let mx = move.x, my = move.y;
+  if (keys['w']) my += 1; if (keys['s']) my -= 1;
+  if (keys['d']) mx += 1; if (keys['a']) mx -= 1;
+
+  if (mx || my) {
+    camera.getWorldDirection(fwd); fwd.y = 0; fwd.normalize();   // flatten: walk, don't fly
+    right.crossVectors(fwd, up).normalize();
+    camera.position.addScaledVector(fwd,   my * CONFIG.speed * dt);
+    camera.position.addScaledVector(right, mx * CONFIG.speed * dt);
+  }
+  // Eye-height pin + room bounds — the difference between "walking" and "phasing through walls".
+  camera.position.y = CONFIG.eyeHeight;
+  camera.position.x = Math.max(CONFIG.bounds.minX, Math.min(CONFIG.bounds.maxX, camera.position.x));
+  camera.position.z = Math.max(CONFIG.bounds.minZ, Math.min(CONFIG.bounds.maxZ, camera.position.z));
+
+  viewer.update();
+  viewer.render();
+  posEl.textContent = `x ${camera.position.x.toFixed(1)}  z ${camera.position.z.toFixed(1)}`;
+  requestAnimationFrame(frame);
+}
+
+viewer.addSplatScene(CONFIG.src, { showLoadingUI: false })
+  .then(() => { document.getElementById('loading').style.display = 'none'; requestAnimationFrame(frame); })
+  .catch(err => {
+    document.getElementById('loading').innerHTML =
+      `Could not load <code>${CONFIG.src}</code>.<br><span class="hint">` +
+      `Put a .ksplat/.ply/.splat there, or pass ?src=&lt;url&gt;. If cross-origin, the file needs CORS headers.</span>`;
+    console.error(err);
+  });
+</script>
+</body>
+</html>
