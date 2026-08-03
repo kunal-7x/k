@@ -1,0 +1,397 @@
+<title>Virtual Office for Your Startup — India Setup Guide (2026)</title>
+<style>
+  :root{
+    --paper:#f4f5f7; --surface:#ffffff; --raise:#fbfbfc;
+    --ink:#181b22; --muted:#586071; --faint:#8a93a3;
+    --line:#e4e6ec; --line-strong:#d3d7e0;
+    --accent:#26428f; --accent-2:#3a5fc4; --accent-soft:#e9edf9;
+    --green:#157a4a; --green-soft:#e5f3ec;
+    --amber:#9c630c; --amber-soft:#f6eddb;
+    --danger:#b23b3b; --danger-soft:#f7e6e6;
+    --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --maxw:720px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#0e1218; --surface:#161c25; --raise:#1b222c;
+      --ink:#eef1f6; --muted:#9aa4b3; --faint:#6b7686;
+      --line:#242e3a; --line-strong:#324150;
+      --accent:#84a0ff; --accent-2:#a5b8ff; --accent-soft:#182338;
+      --green:#41bd80; --green-soft:#12251b;
+      --amber:#e0a552; --amber-soft:#2a2113;
+      --danger:#e57373; --danger-soft:#2c1717;
+    }
+  }
+  :root[data-theme="light"]{
+    --paper:#f4f5f7; --surface:#ffffff; --raise:#fbfbfc;
+    --ink:#181b22; --muted:#586071; --faint:#8a93a3;
+    --line:#e4e6ec; --line-strong:#d3d7e0;
+    --accent:#26428f; --accent-2:#3a5fc4; --accent-soft:#e9edf9;
+    --green:#157a4a; --green-soft:#e5f3ec;
+    --amber:#9c630c; --amber-soft:#f6eddb;
+    --danger:#b23b3b; --danger-soft:#f7e6e6;
+  }
+  :root[data-theme="dark"]{
+    --paper:#0e1218; --surface:#161c25; --raise:#1b222c;
+    --ink:#eef1f6; --muted:#9aa4b3; --faint:#6b7686;
+    --line:#242e3a; --line-strong:#324150;
+    --accent:#84a0ff; --accent-2:#a5b8ff; --accent-soft:#182338;
+    --green:#41bd80; --green-soft:#12251b;
+    --amber:#e0a552; --amber-soft:#2a2113;
+    --danger:#e57373; --danger-soft:#2c1717;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);
+    line-height:1.65;font-size:18px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  h1,h2,h3,.eyebrow,.label,.num,nav,th,.pill,.tldr b{font-family:var(--sans)}
+
+  /* Header */
+  header{border-bottom:1px solid var(--line);background:
+    linear-gradient(180deg,var(--accent-soft),transparent);}
+  .eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);font-weight:700;margin:0 0 14px}
+  h1{font-size:clamp(30px,6vw,44px);line-height:1.1;font-weight:800;
+    letter-spacing:-.02em;margin:0 0 16px;text-wrap:balance}
+  h1 .thin{color:var(--muted);font-weight:600}
+  .lede{font-size:19px;color:var(--muted);margin:0;max-width:60ch}
+  header .wrap{padding-top:54px;padding-bottom:46px}
+  .credit{margin-top:22px;font-family:var(--sans);font-size:13px;color:var(--faint)}
+
+  /* Sticky nav */
+  nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--paper) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px;
+    scrollbar-width:none}
+  nav .wrap::-webkit-scrollbar{display:none}
+  nav a{flex:0 0 auto;font-size:13px;color:var(--muted);text-decoration:none;
+    padding:5px 11px;border-radius:99px;white-space:nowrap;border:1px solid transparent}
+  nav a:hover{color:var(--ink);border-color:var(--line-strong);background:var(--surface)}
+
+  section{padding:40px 0;border-bottom:1px solid var(--line)}
+  h2{font-size:26px;font-weight:800;letter-spacing:-.01em;margin:0 0 6px;text-wrap:balance}
+  h2 .n{color:var(--accent);font-variant-numeric:tabular-nums}
+  .sub{color:var(--muted);margin:0 0 22px;font-size:16px}
+  p{margin:0 0 16px}
+  a{color:var(--accent);text-underline-offset:2px}
+  strong{font-weight:700}
+
+  /* TL;DR */
+  .tldr{background:var(--surface);border:1px solid var(--line-strong);border-radius:14px;
+    padding:22px 24px;margin:30px 0 0}
+  .tldr h3{margin:0 0 10px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+  .tldr ul{margin:0;padding-left:20px}
+  .tldr li{margin:7px 0}
+  .tldr b{font-family:var(--sans)}
+
+  /* Steps */
+  .step{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:22px 0;
+    border-top:1px solid var(--line)}
+  .step:first-of-type{border-top:none}
+  .num{font-size:30px;font-weight:800;color:var(--accent);line-height:1;
+    font-variant-numeric:tabular-nums;min-width:44px}
+  .step h3{margin:2px 0 8px;font-size:19px;font-weight:800;font-family:var(--sans)}
+  .step p{font-size:16.5px;margin:0 0 10px}
+  .step ul{font-size:16px;margin:0 0 4px;padding-left:20px}
+  .step li{margin:5px 0}
+
+  /* Callouts */
+  .note{border-radius:12px;padding:15px 18px;margin:20px 0;font-size:15.5px;
+    border:1px solid var(--line-strong);background:var(--raise)}
+  .note .label{display:inline-block;font-size:11.5px;letter-spacing:.1em;
+    text-transform:uppercase;font-weight:700;margin-bottom:5px}
+  .note p{margin:0}
+  .note.legal{background:var(--green-soft);border-color:color-mix(in srgb,var(--green) 35%,var(--line))}
+  .note.legal .label{color:var(--green)}
+  .note.risk{background:var(--danger-soft);border-color:color-mix(in srgb,var(--danger) 35%,var(--line))}
+  .note.risk .label{color:var(--danger)}
+  .note.cheap{background:var(--amber-soft);border-color:color-mix(in srgb,var(--amber) 35%,var(--line))}
+  .note.cheap .label{color:var(--amber)}
+
+  /* Docs grid */
+  .docs{display:grid;gap:12px;margin:8px 0 0}
+  @media(min-width:560px){.docs{grid-template-columns:repeat(3,1fr)}}
+  .doc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .doc .t{font-family:var(--sans);font-weight:700;font-size:15px;margin:0 0 6px}
+  .doc p{font-size:14px;color:var(--muted);margin:0}
+
+  /* Table */
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:8px 0}
+  table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14.5px;min-width:460px}
+  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line)}
+  th{background:var(--raise);font-weight:700;font-size:12.5px;letter-spacing:.03em;
+    text-transform:uppercase;color:var(--muted)}
+  tbody tr:last-child td{border-bottom:none}
+  td.num-col{font-variant-numeric:tabular-nums;white-space:nowrap}
+  caption{caption-side:bottom;text-align:left;font-family:var(--sans);font-size:12.5px;
+    color:var(--faint);padding:10px 14px}
+
+  .pill{display:inline-block;font-family:var(--sans);font-size:12px;font-weight:700;
+    padding:2px 9px;border-radius:99px;background:var(--accent-soft);color:var(--accent)}
+
+  /* Disclaimer */
+  .disclaimer{background:var(--surface);border:1px dashed var(--line-strong);border-radius:14px;
+    padding:20px 22px;margin:34px 0 0;font-size:14.5px;color:var(--muted)}
+  .disclaimer h3{margin:0 0 8px;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+
+  .sources{font-family:var(--sans);font-size:13.5px}
+  .sources li{margin:6px 0}
+  footer{padding:36px 0 60px;color:var(--faint);font-family:var(--sans);font-size:13px}
+  @media (prefers-reduced-motion:no-preference){
+    html{scroll-behavior:smooth}
+    nav a,.doc{transition:all .15s ease}
+  }
+</style>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Startup Compliance · India · 2026</p>
+    <h1>Set up a <span>Virtual Office</span> for your startup <span class="thin">— legally, securely, and cheaply</span></h1>
+    <p class="lede">A real business address for GST registration and company incorporation — without renting an office. Here's the honest, end-to-end process, what it actually costs, and how to stay on the right side of the law.</p>
+    <p class="credit">Prompted by a reel from @callca.in ("Open your office in any state, rent ₹1,000/month"). This guide decodes the claim and gives you the full playbook.</p>
+  </div>
+</header>
+
+<nav>
+  <div class="wrap">
+    <a href="#what">What it is</a>
+    <a href="#legal">Is it legal?</a>
+    <a href="#docs">The 3 documents</a>
+    <a href="#process">Full process</a>
+    <a href="#cost">Real cost</a>
+    <a href="#cheapest">Cheapest way</a>
+    <a href="#risk">Security &amp; risks</a>
+    <a href="#states">Any state</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="tldr">
+    <h3>The 60-second version</h3>
+    <ul>
+      <li>A virtual office is a <b>legally recognised address</b> you rent for paperwork — accepted by both <b>GST</b> and the <b>MCA</b> for company registration.</li>
+      <li>What makes it legal is <b>three documents</b>: a rent/service agreement in your name, an owner's <b>NOC</b>, and a recent <b>utility bill</b>.</li>
+      <li>The "₹1,000/month" is real for a plain address, but a <b>GST-ready plan is usually billed yearly</b> — budget <b>₹10,000–₹25,000/year</b> in a metro, less in Tier-2.</li>
+      <li>Be ready for <b>Aadhaar biometric / physical verification</b> — now rolling out state by state for GST.</li>
+      <li>Cheapest ≠ safest. A weak provider can get your GST rejected or flagged. Pick a compliant one that will <b>handle government notices</b>.</li>
+    </ul>
+  </div>
+
+  <section id="what">
+    <h2>1&nbsp;·&nbsp;What a virtual office actually is</h2>
+    <p class="sub">And the honest truth behind the "₹1,000 a month" hook.</p>
+    <p>A <strong>virtual office</strong> is a commercial address that a provider lets you use as your business's official address — for GST registration, company incorporation, mail and courier handling, and (on demand) a meeting room — without you renting or occupying physical space.</p>
+    <p>The reel's "office in any state for ₹1,000/month" is genuinely possible <em>for a basic mailing address</em>. But the moment you need it for <strong>GST or company registration</strong>, the provider has to issue legal documents in your name, and those plans are almost always <strong>billed annually</strong>, not at a flat ₹1,000/month. So treat ₹1,000/month as the headline, not the compliance price — the real numbers are in <a href="#cost">section 5</a>.</p>
+  </section>
+
+  <section id="legal">
+    <h2>2&nbsp;·&nbsp;Is it legal? Yes — with conditions</h2>
+    <p class="sub">Recognised by both the company registrar and the tax department.</p>
+    <p>Using a virtual office is <strong>legal in India</strong> for both company registration and GST, provided the documents are valid and the address can genuinely receive government communication.</p>
+    <div class="note legal">
+      <span class="label">✓ Company law</span>
+      <p>The Companies Act, 2013 does not require you to <em>own or lease</em> physical premises — only to have a <strong>registered office capable of receiving official correspondence</strong>. Section 12 requires every company to have a registered office within <strong>30 days of incorporation</strong>, in the same state as its Registrar of Companies (RoC). A virtual office satisfies this when its three documents are in order.</p>
+    </div>
+    <div class="note legal">
+      <span class="label">✓ GST</span>
+      <p>GST law lets you register your <strong>Principal Place of Business</strong> at a virtual office, and add offices in other states as an <strong>Additional Place of Business</strong> — as long as the address on the application exactly matches your rent agreement, NOC and utility bill.</p>
+    </div>
+  </section>
+
+  <section id="docs">
+    <h2>3&nbsp;·&nbsp;The three documents that make it legal</h2>
+    <p class="sub">This is the whole game. Get these right and the rest is procedure.</p>
+    <div class="docs">
+      <div class="doc">
+        <p class="t">① Rent / Service Agreement</p>
+        <p>In your (or the company's) name, signed by both parties, stating the rent and that you may use the address as your Principal Place of Business.</p>
+      </div>
+      <div class="doc">
+        <p class="t">② NOC</p>
+        <p>A No Objection Certificate signed &amp; dated by the property owner (or the provider's authorised representative) permitting the registration.</p>
+      </div>
+      <div class="doc">
+        <p class="t">③ Utility Bill</p>
+        <p>Electricity / water bill for the premises, <strong>not older than 2 months</strong> from your application date.</p>
+      </div>
+    </div>
+    <div class="note">
+      <span class="label">Filing tip</span>
+      <p>The address in Form <strong>GST REG-01</strong> must match the three documents <em>character for character</em>. Upload PDF/JPEG, keep each file under <strong>100&nbsp;KB</strong>, and make sure the utility bill is under two months old.</p>
+    </div>
+  </section>
+
+  <section id="process">
+    <h2>4&nbsp;·&nbsp;The full process, step by step</h2>
+    <p class="sub">From "I have an idea" to "I'm GST-registered," in order.</p>
+
+    <div class="step">
+      <div class="num">1</div>
+      <div>
+        <h3>Decide what you actually need</h3>
+        <p>Your need sets the plan (and the price):</p>
+        <ul>
+          <li><strong>Just a professional address / mail</strong> — cheapest plan.</li>
+          <li><strong>GST registration</strong> — needs the 3 legal documents.</li>
+          <li><strong>Company incorporation</strong> (Pvt Ltd / LLP / OPC) — needs documents accepted by the MCA.</li>
+          <li><strong>Presence in another state</strong> — an Additional Place of Business in that state's RoC jurisdiction (this is the reel's "office in any state").</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">2</div>
+      <div>
+        <h3>Choose a compliant provider</h3>
+        <p>The provider's legitimacy <em>is</em> your legitimacy. Before paying, confirm they:</p>
+        <ul>
+          <li>issue all three documents in your name for your exact use-case (GST and/or MCA);</li>
+          <li>are willing to be listed as your registered/principal address and to <strong>receive and forward government notices</strong>;</li>
+          <li>have a genuine, verifiable commercial property (not a flagged residential flat);</li>
+          <li>quote the <strong>all-in annual price</strong> including courier, renewal and any deposit.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">3</div>
+      <div>
+        <h3>Collect &amp; verify the three documents</h3>
+        <p>Get the Rent Agreement, NOC and recent Utility Bill. Check every field: your name/entity spelled correctly, address identical across all three, dates current, signatures present.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">4</div>
+      <div>
+        <h3>Incorporate the company on the MCA portal (if forming one)</h3>
+        <p>Skip this if you're a sole proprietor and only need GST. For a Pvt Ltd / LLP / OPC:</p>
+        <ul>
+          <li>Get a <strong>Digital Signature Certificate (DSC)</strong> and <strong>DIN</strong> for directors.</li>
+          <li>File the <strong>SPICe+</strong> form on <a href="https://www.mca.gov.in" rel="nofollow">mca.gov.in</a> with your virtual-office documents as address proof.</li>
+          <li>Receive the <strong>Certificate of Incorporation</strong> (with PAN &amp; TAN).</li>
+          <li>Remember Section 12: registered office confirmed within <strong>30 days</strong>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">5</div>
+      <div>
+        <h3>Register for GST</h3>
+        <p>On <a href="https://www.gst.gov.in" rel="nofollow">gst.gov.in</a>, file <strong>REG-01</strong>: enter the address exactly as on your documents, upload the three files, and submit Part B. You'll get an ARN to track it.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">6</div>
+      <div>
+        <h3>Complete Aadhaar / biometric verification</h3>
+        <p>India is rolling out <strong>biometric-based Aadhaar authentication</strong> for GST, state by state (2025 onward). Based on a risk assessment you may be asked to:</p>
+        <ul>
+          <li>visit a <strong>GST Suvidha Kendra</strong> for a fingerprint/iris scan, live photo and document check; or</li>
+          <li>have an officer conduct <strong>physical verification of the premises</strong> if Aadhaar auth isn't completed.</li>
+        </ul>
+        <p>You typically have <strong>15 days</strong> from Part B submission to finish this, or the ARN isn't generated.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">7</div>
+      <div>
+        <h3>Stay compliant after setup</h3>
+        <ul>
+          <li>Display your <strong>GST certificate</strong> and name board at the registered address (the provider handles the board).</li>
+          <li>Keep the tenancy documents <strong>current and renewed</strong> — an expired agreement can invalidate the address.</li>
+          <li>Make sure notices sent there actually reach you (this is why provider quality matters).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="cost">
+    <h2>5&nbsp;·&nbsp;What it really costs</h2>
+    <p class="sub">Honest 2026 numbers — priced per year, because compliance plans usually are.</p>
+    <div class="tablewrap">
+      <table>
+        <caption>Indicative 2026 ranges. Metro = Delhi/Mumbai/Bengaluru; Tier-2 = smaller cities. Confirm all-in pricing before paying.</caption>
+        <thead>
+          <tr><th>Plan</th><th>Metro (per year)</th><th>Tier-2 (per year)</th><th>Gets you</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Business address / mail</td><td class="num-col">₹6,000–₹12,000</td><td class="num-col">₹6,000–₹9,000</td><td>Address + mail handling</td></tr>
+          <tr><td>GST registration</td><td class="num-col">₹12,000–₹25,000</td><td class="num-col">₹10,000–₹18,000</td><td>+ 3 legal documents</td></tr>
+          <tr><td>Company incorporation</td><td class="num-col">₹12,000–₹22,000</td><td class="num-col">₹10,000–₹18,000</td><td>+ MCA-accepted docs</td></tr>
+          <tr><td>Premium (meeting rooms, reception)</td><td class="num-col">₹40,000+</td><td class="num-col">₹25,000+</td><td>+ coworking, call handling</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note cheap">
+      <span class="label">₹ Watch the extras</span>
+      <p>The advertised number is the hook; <strong>courier charges, meeting-room fees, a refundable security deposit, and renewal fees</strong> are often added later. Always ask for the <strong>total first-year cost</strong> in writing.</p>
+    </div>
+    <p>Add government/professional fees when incorporating a company — roughly <strong>₹1,500 + government fee</strong> upward through an online filing service, separate from the virtual-office rent.</p>
+  </section>
+
+  <section id="cheapest">
+    <h2>6&nbsp;·&nbsp;The cheapest <em>legal</em> way</h2>
+    <p class="sub">Low cost without cutting the corners that get you rejected.</p>
+    <ul>
+      <li><strong>Match the plan to the need.</strong> Only paying for GST? Don't buy the incorporation or premium tier.</li>
+      <li><strong>Register in a Tier-2 city</strong> if you don't need a metro address — often 30–40% cheaper for the same legal validity.</li>
+      <li><strong>Pay annually</strong> — compliance plans are yearly anyway, and annual is cheaper than any month-to-month equivalent.</li>
+      <li><strong>Bundle</strong> incorporation + GST at one address/provider to avoid duplicate document fees.</li>
+      <li><strong>Get the all-in quote in writing</strong> so "₹599/month" doesn't become ₹20,000 with add-ons.</li>
+    </ul>
+    <div class="note cheap">
+      <span class="label">₹ Realistic floor</span>
+      <p>A genuinely compliant, GST-ready virtual office in a Tier-2 city starts around <strong>₹10,000/year all-in</strong>. Anything dramatically cheaper deserves a hard look at the provider (next section).</p>
+    </div>
+  </section>
+
+  <section id="risk">
+    <h2>7&nbsp;·&nbsp;Security &amp; the red flags</h2>
+    <p class="sub">Where cheap virtual offices go wrong — and how to stay safe.</p>
+    <div class="note risk">
+      <span class="label">⚠ Avoid these</span>
+      <p>
+        • Providers offering documents but <strong>unwilling to receive government notices</strong>.<br>
+        • A <strong>residential flat</strong> or an address with hundreds of unrelated firms already registered — a known GST scrutiny trigger.<br>
+        • <strong>No verifiable rent agreement / NOC / utility bill</strong>, or refusal to show the property.<br>
+        • Rock-bottom prices with <strong>no support</strong> when a notice or verification arrives.
+      </p>
+    </div>
+    <p>Practical safeguards: verify the provider's own GST number, ask how many entities share the address, confirm in writing that they forward all statutory mail, and keep your own copies of every document. Legitimacy of the address is what a verifying officer checks — so buy legitimacy, not just a PDF.</p>
+  </section>
+
+  <section id="states">
+    <h2>8&nbsp;·&nbsp;"An office in any state" — what that really means</h2>
+    <p class="sub">The multi-state promise, done correctly.</p>
+    <p>GST is state-wise. To sell or store goods in another state (common for <strong>e-commerce sellers</strong> on Amazon/Flipkart), you can take a virtual office there and register it as an <strong>Additional Place of Business</strong> under that state's jurisdiction. That's the legitimate version of "open your office in any state" — one company, compliant GST presence in several states, each backed by its own set of three documents.</p>
+  </section>
+
+  <div class="disclaimer">
+    <h3>Important — read this</h3>
+    <p>This is general information for founders, not legal, tax, or financial advice. GST and MCA rules change, and biometric/physical-verification requirements are being rolled out <strong>state by state</strong>, so what applies to you depends on your state and date. Before registering, confirm the current requirements on the official <a href="https://www.gst.gov.in" rel="nofollow">gst.gov.in</a> and <a href="https://www.mca.gov.in" rel="nofollow">mca.gov.in</a> portals and, for anything non-trivial, consult a qualified <strong>Chartered Accountant (CA)</strong> or <strong>Company Secretary (CS)</strong>. Using a virtual office is legal; misrepresenting a place of business is not — keep everything genuine and documented.</p>
+  </div>
+
+  <section id="sources" style="border-bottom:none">
+    <h2>Sources</h2>
+    <p class="sub">Current references used for this guide (2025–2026).</p>
+    <ul class="sources">
+      <li><a href="https://myhq.in/blog/virtual-office/virtual-office-gst-registration" rel="nofollow">myHQ — Virtual Office GST Registration: Complete 2026 Guide</a></li>
+      <li><a href="https://myhq.in/blog/virtual-office-for-pvt-ltd-company-registration" rel="nofollow">myHQ — Virtual Office for Pvt Ltd Company Registration (2026)</a></li>
+      <li><a href="https://razorpay.com/rize/blogs/virtual-office-company-registration-india" rel="nofollow">Razorpay Rize — Virtual Office for Company Registration in India</a></li>
+      <li><a href="https://cofynd.com/blog/virtual-office-india-guide" rel="nofollow">Cofynd — Virtual Office in India (2026): Legality, GST, Setup &amp; Costs</a></li>
+      <li><a href="https://www.indiafilings.com/learn/new-gst-registration-rules-aadhaar-biometric-verification-now-mandatory" rel="nofollow">IndiaFilings — Aadhaar &amp; Biometric Authentication for GST Registration</a></li>
+      <li><a href="https://tax2win.in/guide/get-gst-registration-india-virtual-office" rel="nofollow">Tax2win — GST Registration in India with Virtual Office</a></li>
+      <li><a href="https://www.namasteoffice.in/blog/is-virtual-office-legal-in-india-gst-mca-bank-perspective-complete-2026-guide" rel="nofollow">Namaste Office — Is Virtual Office Legal in India? (2026)</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    Built for your startup workspace · Verify current rules before filing · Not legal or tax advice.
+  </footer>
+</div>
